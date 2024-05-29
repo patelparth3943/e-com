@@ -32,9 +32,27 @@ export function ProductsProvider({ children }) {
     useEffect(() => {
         loadProducts();
     }, []);
+    const increaseQuantity = (itemId) => {
+        setCart((prevCart) =>
+            prevCart.map((item) =>
+                item.id === itemId ? { ...item, quantity: item.quantity + 1 } : item
+            )
+        );
+    };
+
+    const decreaseQuantity = (itemId) => {
+        setCart((prevCart) =>
+            prevCart
+                .map((item) =>
+                    item.id === itemId ? { ...item, quantity: item.quantity - 1 } : item
+                )
+                .filter((item) => item.quantity > 0)
+        );
+    };
+
 
     return (
-        <ProductsContext.Provider value={{ products, addToCart }}>
+        <ProductsContext.Provider value={{ products, addToCart, decreaseQuantity, increaseQuantity }}>
             {children}
         </ProductsContext.Provider>
     );

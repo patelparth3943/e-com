@@ -11,11 +11,12 @@ function Home() {
   // console.log(products);
 
   return (
-    <>
+    <>  <span>--------------------------------</span>
       <h1>Products</h1>
+      <span>--------------------------------</span>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3 lg:gap-4">
-        {products.map((product) => (
-          <Card className="aspect-vrect overflow-hidden">
+        {products.map((product, index) => (
+          <Card key={`${product.id}-${index}`} className="aspect-vrect overflow-hidden">
             <CardHeader>
               <img className="aspect-square object-contain" src={product.image} alt={product.title} />
             </CardHeader>
