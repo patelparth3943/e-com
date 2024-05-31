@@ -1,3 +1,4 @@
+/* eslint-disable react/button-has-type */
 import React, { Fragment, useContext, useMemo, useState } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
@@ -83,11 +84,12 @@ function MainLayout() {
                           className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                         >
                           <ShoppingCartIcon className="h-6 w-6" aria-hidden="true" />
+                          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-semibold rounded-full px-2">{cart?.reduce((p, c) => p + c.quantity, 0)}</span>
                           <span className="absolute -inset-1.5" />
                           <span className="sr-only">cart</span>
-                          {cart.length > 0 && (
+                          {/* {cart.length > 0 && (
                             <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-semibold rounded-full px-2">{cart.length}</span>
-                          )}
+                          )} */}
                         </button>
                       </SheetTrigger>
                       <SheetContent>
@@ -104,7 +106,7 @@ function MainLayout() {
                                     <CardContent className="w-2/4 flex flex-col gap-2">
                                       <CardTitle className="line-clamp-1">{item.title}</CardTitle>
                                       <CardDescription className="line-clamp-2">{item.description}</CardDescription>
-                                      <p className="text-pink-600 text-lg">{Intl.NumberFormat("en-IN", { currency: "USD", style: 'currency' }).format(item.price)}</p>
+                                      <p className="text-indigo-600 text-lg">{Intl.NumberFormat("en-IN", { currency: "USD", style: 'currency' }).format(item.price)}</p>
                                     </CardContent>
                                     <CardFooter className="w-1/4 flex flex-col items-end">
                                       <div className="flex items-center space-x-2">
@@ -116,7 +118,7 @@ function MainLayout() {
                                         </button>
                                         <span>{item.quantity}</span>
                                         <button
-                                          className="px-2 py-1 bg-pink-600 text-white rounded"
+                                          className="px-2 py-1 bg-indigo-600 text-white rounded"
                                           onClick={() => increaseQuantity(item.id)}
                                         >
                                           +
