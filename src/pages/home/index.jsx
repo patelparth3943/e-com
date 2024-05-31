@@ -1,3 +1,4 @@
+/* eslint-disable react/button-has-type */
 import React, { useContext } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { ProductsContext } from '../../components/context/productsContext';
@@ -20,7 +21,7 @@ function Home() {
           const cartItem = getCartItem(product.id);
 
           return (
-            <Card key={`${product.id}-${index}`} className="aspect-vrect overflow-hidden">
+            <Card key={`${product.id}-${index}`} >
               <CardHeader>
                 <img className="aspect-square object-contain" src={product.image} alt={product.title} />
               </CardHeader>

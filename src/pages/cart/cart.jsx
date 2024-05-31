@@ -25,6 +25,8 @@ function Cart({ onClose }) {
                         <div className="p-4 border-b">
                             <h2 className="text-xl font-semibold">Shopping Cart</h2>
                         </div>
+
+
                         <div className="p-4 max-h-96 overflow-y-auto">
                             {cart.length > 0 ? (
                                 cart.map(item => (
@@ -61,7 +63,11 @@ function Cart({ onClose }) {
                                 <p className="text-center text-gray-500">Your cart is empty</p>
                             )}
                         </div>
+
+
                     </div>
+
+
                     <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                         <button
                             onClick={onClose}
