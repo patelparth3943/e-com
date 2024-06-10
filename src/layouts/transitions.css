@@ -1,0 +1,15 @@
+.alert-enter {
+    transform: translateY(100%);
+}
+
+.alert-enter-active {
+    transform: translateY(0);
+}
+
+.alert-exit {
+    transform: translateY(0);
+}
+
+.alert-exit-active {
+    transform: translateY(100%);
+}

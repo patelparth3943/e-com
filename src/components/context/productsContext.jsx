@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { CartContext } from './cartcontext';
 
@@ -5,6 +6,7 @@ export const ProductsContext = createContext();
 
 export function ProductsProvider({ children }) {
     const [products, setProducts] = useState([]);
+    const [product, setProduct] = useState({})
     const { setCart } = useContext(CartContext);
 
 
@@ -24,6 +26,22 @@ export function ProductsProvider({ children }) {
             console.error('Load products error:', error.message);
         }
     };
+
+
+    const loadSingleProduct = async (id) => {
+        try {
+            const response = await fetch(`http://localhost:3000/products/${id}`)
+            const json = await response.json();
+
+            if (!response.ok) {
+                throw new Error(json.message || 'Failed to load products');
+            }
+            console.log('Products loaded:', json);
+            setProduct(json)
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     const addToCart = (product) => {
         setCart(prevCart => [...prevCart, product]);
@@ -52,7 +70,7 @@ export function ProductsProvider({ children }) {
 
 
     return (
-        <ProductsContext.Provider value={{ products, addToCart, decreaseQuantity, increaseQuantity }}>
+        <ProductsContext.Provider value={{ products, addToCart, decreaseQuantity, increaseQuantity, loadSingleProduct, product }}>
             {children}
         </ProductsContext.Provider>
     );

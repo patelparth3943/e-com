@@ -1,9 +1,10 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 export const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState(localStorage.getItem('user'));
     useEffect(() => {
         const userData = localStorage.getItem('user');
         if (userData) {
@@ -11,6 +12,7 @@ export function AuthProvider({ children }) {
             setUser(userJSON);
         }
     }, []);
+    console.log("SETUSER", user);
 
 
 
@@ -33,7 +35,7 @@ export function AuthProvider({ children }) {
             setUser(json);
             localStorage.setItem('user', JSON.stringify(json));
             reset();
-            // Navigate('/');
+            // navigate('/');
 
 
         } catch (error) {

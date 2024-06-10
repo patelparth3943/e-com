@@ -21,6 +21,23 @@ module.exports = {
         exclude: /node_modules/,
         use: ['style-loader', 'css-loader', 'postcss-loader'],
       },
+      {
+        test: /\.css$/,
+        include: /node_modules/,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.webp$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: 'banner.webp',
+              outputPath: 'assets/banner.webp'
+            }
+          }
+        ]
+      }
     ],
   },
   plugins: [

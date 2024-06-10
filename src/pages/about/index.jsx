@@ -6,7 +6,10 @@ function About() {
 
   return (
     <div>
-      <p>About</p>
+
+
+
+      {/* <p>About</p>
       <Link to="/login">GO to login</Link>
       <button
         type="button"
@@ -15,7 +18,7 @@ function About() {
         }}
       >
         Go to register
-      </button>
+      </button> */}
     </div>
   );
 }

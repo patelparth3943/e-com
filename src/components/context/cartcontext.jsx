@@ -1,13 +1,35 @@
 
-
-
-
 import React, { createContext, useState } from 'react';
 
 export const CartContext = createContext();
 
 export function CartProvider({ children }) {
     const [cart, setCart] = useState([]);
+
+    const createCart = async () => {
+        try {
+            const res = await fetch('http://localhost:3000/cart', {
+                method: 'POST',
+                body: JSON.stringify({
+                    date: new Date().toISOSString(),
+                    prodcuts: [],
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json'
+
+                },
+
+            });
+            const json = await res.json();
+            localStorage.setItem('cart', JSON.stringify(json));
+            setCart(json);
+        } catch (error) {
+            console.log(error);
+
+        }
+    }
+
 
     const addToCart = (item) => {
         setCart((prevCart) => {
@@ -42,85 +64,119 @@ export function CartProvider({ children }) {
     };
 
     return (
-        <CartContext.Provider value={{ cart, addToCart, increaseQuantity, decreaseQuantity }}>
+        <CartContext.Provider value={{ cart, addToCart, createCart, increaseQuantity, decreaseQuantity }}>
             {children}
         </CartContext.Provider>
     );
 }
 
 
-// import React, { createContext, useState } from 'react';
+// import React, { createContext, useEffect, useState } from 'react';
 
 // export const CartContext = createContext();
 
 // export function CartProvider({ children }) {
 //     const [cart, setCart] = useState([]);
-//     const { user } = useAuth();
-//     const loadProducts = async (cartId) => {
+
+//     const createCart = async () => {
 //         try {
-//             const response = await fetch('http://localhost:3000/products');
+//             const res = await fetch('http://localhost:3000/cart', {
+//                 method: 'POST',
+//                 body: JSON.stringify({
+//                     date: new Date().toISOSString(),
+//                     prodcuts: [],
+//                 }),
+//                 headers: {
+//                     'Content-Type': 'application/json',
+//                     Accept: 'application/json'
 
-//             const json = await response.json();
+//                 },
 
-//             if (!response.ok) {
-//                 throw new Error(json.message || 'Failed to load products');
-//             }
-
+//             });
+//             const json = await res.json();
+//             localStorage.setItem('cart', JSON.stringify(json));
 //             setCart(json);
-//             console.log('Products loaded:', json.products);
 //         } catch (error) {
-//             console.error('Load products error:', error.message);
+//             console.log(error);
+
+//         }
+//     }
+
+
+//     const addToCart = async data => {
+//         try {
+//             const index = cart?.prodcuts?.findIndex(
+//                 x => x.productID === data.productID,
+//             );
+//             const res = await fetch('http://localhost:3000/cart/${cart.id}', {
+//                 method: 'PUT',
+//                 body: JSON.stringify({
+//                     ...cart,
+//                     prodcuts:
+//                         index === -1
+//                             ? [...cart.products, data]
+//                             : data.quantity === 0
+//                                 ? [
+//                                     ...cart.producuts.slice(0, index),
+//                                     ...cart.producuts.slice(index + 1),
+
+//                                 ]
+//                                 : [
+//                                     ...cart.producuts.slice(0, index),
+//                                     data,
+//                                     ...cart.producuts.slice(index + 1),
+//                                 ],
+//                 }),
+//                 headers: {
+//                     'Content-Type': 'application/json',
+//                     Accept: 'application/json'
+
+//                 },
+
+//             });
+//             const json = await res.json();
+//             localStorage.setItem('cart', JSON.stringify(json));
+//             setCart(json);
+
+//         } catch (error) {
+//             console.log(error);
+
 //         }
 //     };
-//     const createCart = useCallback(async () => {
-//         const res = await axiosInstance.post('660/cart', {
-//             userId: user.user.id,
-//             items: [],
-//         });
-//         setCart(res.data);
-//         localStorage.setItem('cart_id', JSON.stringify(res.data.id));
-//     }, [user]);
-
-//     const addCartItem = useCallback(
-//         async (productId) => {
-//             try {
-//                 const updatedCart = { ...cart };
-//                 const index = updatedCart.items.findIndex(
-//                     (x) => x.productId === productId,
-//                 );
-
-//                 if (index === -1) {
-//                     const items = [...updatedCart.items, { productId, quantity: 1 }];
-//                     updatedCart.items = items;
-//                 } else {
-//                     const items = [
-//                         ...updatedCart.items.slice(0, index),
-//                         {
-//                             ...updatedCart.items[index],
-//                             quantity: updatedCart.items[index].quantity + 1,
-//                         },
-//                         ...updatedCart.items.slice(index + 1),
-//                     ];
-//                 }
-//                 const response = await fetch(`http://localhost:3000/cart/${cart.id}`, updatedCart);
-//             } catch (error) { }
-//             [cart.id]
-// );
-
 //     useEffect(() => {
-//         const cartId = localStorage.getItem('cart_id');
-//         if (cartId) {
-//             loadCart(cartId)
+//         const localcart = localStorage.getItem('cart')
+//         if (localcart) {
+//             setCart(JSON.parse(localcart));
 //         } else {
 //             createCart();
 //         }
-//     }, []);
+//     }, [])
 
+//     // const increaseQuantity = (itemId) => {
+//     //     setCart((prevCart) =>
+//     //         prevCart.map((item) =>
+//     //             item.id === itemId ? { ...item, quantity: item.quantity + 1 } : item
+//     //         )
+//     //     );
+//     // };
+
+//     // const decreaseQuantity = (itemId) => {
+//     //     setCart((prevCart) =>
+//     //         prevCart
+//     //             .map((item) =>
+//     //                 item.id === itemId ? { ...item, quantity: item.quantity - 1 } : item
+//     //             )
+//     //             .filter((item) => item.quantity > 0)
+//     //     );
+//     // };
 
 //     return (
-//         <CartContext.Provider value={{ cart, addToCart, increaseQuantity, decreaseQuantity }}>
+//         <CartContext.Provider value={{ addToCart, createCart }}>
 //             {children}
 //         </CartContext.Provider>
 //     );
 // }
+
+
+
 

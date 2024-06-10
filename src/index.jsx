@@ -11,6 +11,10 @@ import AuthLayout from './layouts/authLayout';
 import { AuthProvider } from './components/context/auth.context';
 import { ProductsProvider } from './components/context/productsContext';
 import { CartProvider } from './components/context/cartcontext';
+import ProductDetail from './pages/productDetail';
+import ProtectedRoutes, { AuthRoute } from './components/ProtectedRoutes'
+import Shop from './pages/shop';
+import Contact from './pages/contact';
 
 document.body.innerHTML = '<main id="app"></main>';
 
@@ -21,7 +25,9 @@ const router = createBrowserRouter([
     path: '/',
     element: <ProductsProvider>
       <CartProvider>
-        <MainLayout />
+        <ProtectedRoutes>
+          <MainLayout />
+        </ProtectedRoutes>
       </CartProvider>
     </ProductsProvider>,
     children: [
@@ -30,18 +36,30 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: 'home',
+        path: "home",
         element: <Home />,
       },
       {
         path: 'about',
         element: <About />,
       },
+      {
+        path: 'shop',
+        element: <Shop />,
+      },
+      {
+        path: "contact",
+        element: <Contact />,
+      },
+      {
+        path: 'product/:productId',
+        element: <ProductDetail />,
+      },
     ],
   },
   {
     path: 'auth',
-    element: <AuthLayout />,
+    element: <AuthRoute> <AuthLayout /></AuthRoute>,
     children: [
       {
         index: true,
@@ -62,7 +80,6 @@ const router = createBrowserRouter([
 root.render(
   <AuthProvider>
     <CartProvider>
-
       <RouterProvider router={router} />
     </CartProvider>
 
